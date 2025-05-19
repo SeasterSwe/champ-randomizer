@@ -7,8 +7,6 @@ namespace WinUI;
 
 public sealed partial class MainWindow : Window
 {
-    private List<NavigationViewItem> roleNavItems;
-
     public MainWindow()
     {
         this.InitializeComponent();
