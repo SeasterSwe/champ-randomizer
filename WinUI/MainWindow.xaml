@@ -25,10 +25,11 @@
                                 PaneDisplayMode="Left"
                                 SelectionChanged="MainNav_SelectionChanged"
                                 Background="#F3F3F3"
-                                CornerRadius="8">
+                                CornerRadius="8"
+                                IsPaneToggleButtonVisible="False">
                     <NavigationView.MenuItems>
                         <NavigationViewItem Content="Home" Tag="Home" Icon="Home" />
-                        <NavigationViewItem Content="List Manage" Tag="ListManage" Icon="List" />
+                        <NavigationViewItem Content="Manage" Tag="Manage" Icon="List" />
                     </NavigationView.MenuItems>
                 </NavigationView>
 
@@ -39,28 +40,11 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
-                    <!-- Top Navigation (Roles) -->
-                    <NavigationView x:Name="TopNavView"
-                                    Grid.Row="0"
-                                    IsBackButtonVisible="Collapsed"
-                                    IsSettingsVisible="False"
-                                    PaneDisplayMode="Top"
-                                    SelectionChanged="TopNavView_SelectionChanged"
-                                    Background="Transparent"
-                                    Height="60">
-                        <NavigationView.MenuItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Content}" FontWeight="SemiBold" />
-                            </DataTemplate>
-                        </NavigationView.MenuItemTemplate>
-                    </NavigationView>
-
                     <!-- Content Frame -->
                     <Border Grid.Row="1"
                             Background="White"
                             CornerRadius="8"
-                            Padding="32"
-                            Margin="0,12,0,0">
+                            Padding="32">
                         <Frame x:Name="ContentFrame" />
                     </Border>
                 </Grid>

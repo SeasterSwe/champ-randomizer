@@ -14,8 +14,6 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Views\HomeView.xaml" />
-    <None Remove="Views\ListManageView.xaml" />
-    <None Remove="Views\RoleView.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -45,12 +43,7 @@
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250401001" />
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Views\RoleView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Views\ListManageView.xaml">
+    <Page Update="Views\ManageView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
