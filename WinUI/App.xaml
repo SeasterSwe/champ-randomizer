@@ -10,7 +10,14 @@
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
                 <!-- Other merged dictionaries here -->
             </ResourceDictionary.MergedDictionaries>
-            <!-- Other app resources here -->
+            <Style x:Key="ToolBarButtonStyle" TargetType="Button">
+                <Setter Property="Background" Value="#E0E0E0" />
+                <Setter Property="Foreground" Value="Black" />
+                <Setter Property="FontWeight" Value="SemiBold" />
+                <Setter Property="CornerRadius" Value="4" />
+                <Setter Property="Padding" Value="12,4" />
+                <Setter Property="Margin" Value="0,4,0,4" />
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

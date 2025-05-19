@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="WinUI.Views.ListManageView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:WinUI.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <StackPanel>
+        <TextBlock Text="List Management"
+                   FontSize="24"
+                   FontWeight="SemiBold"
+                   Foreground="#444"
+                   HorizontalAlignment="Center"
+                   Margin="0,0,0,24" />
+
+        <ListView x:Name="ItemsList"
+                  Height="300"
+                  Margin="0,0,0,16"
+                  BorderThickness="1"
+                  BorderBrush="#E0E0E0"
+                  Background="#F9F9F9" />
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Content="Add" Margin="8" Width="100" />
+            <Button Content="Edit" Margin="8" Width="100" />
+            <Button Content="Delete" Margin="8" Width="100" />
+        </StackPanel>
+    </StackPanel>
+</Page>

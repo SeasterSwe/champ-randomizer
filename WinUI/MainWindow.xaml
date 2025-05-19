@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <Window
     x:Class="WinUI.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -8,14 +7,64 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Title="WinUI">
-
     <Window.SystemBackdrop>
         <MicaBackdrop />
     </Window.SystemBackdrop>
+    <Grid Background="#E0E0E0" Padding="16">
+        <Border Background="#C7D3EA" CornerRadius="12" Padding="24">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="220" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <!-- Main Navigation (left) -->
+                <NavigationView x:Name="MainNav"
+                                Grid.Column="0"
+                                IsBackButtonVisible="Collapsed"
+                                IsSettingsVisible="False"
+                                PaneDisplayMode="Left"
+                                SelectionChanged="MainNav_SelectionChanged"
+                                Background="#F3F3F3"
+                                CornerRadius="8">
+                    <NavigationView.MenuItems>
+                        <NavigationViewItem Content="Home" Tag="Home" Icon="Home" />
+                        <NavigationViewItem Content="List Manage" Tag="ListManage" Icon="List" />
+                    </NavigationView.MenuItems>
+                </NavigationView>
 
-    <Grid>
-        <Button Content="Click Me" Click="Button_Click"
-        HorizontalAlignment="Center"
-        VerticalAlignment="Center" />
+                <!-- Main Content Area (right) -->
+                <Grid Grid.Column="1" Margin="24,0,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <!-- Top Navigation (Roles) -->
+                    <NavigationView x:Name="TopNavView"
+                                    Grid.Row="0"
+                                    IsBackButtonVisible="Collapsed"
+                                    IsSettingsVisible="False"
+                                    PaneDisplayMode="Top"
+                                    SelectionChanged="TopNavView_SelectionChanged"
+                                    Background="Transparent"
+                                    Height="60">
+                        <NavigationView.MenuItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Content}" FontWeight="SemiBold" />
+                            </DataTemplate>
+                        </NavigationView.MenuItemTemplate>
+                    </NavigationView>
+
+                    <!-- Content Frame -->
+                    <Border Grid.Row="1"
+                            Background="White"
+                            CornerRadius="8"
+                            Padding="32"
+                            Margin="0,12,0,0">
+                        <Frame x:Name="ContentFrame" />
+                    </Border>
+                </Grid>
+            </Grid>
+        </Border>
     </Grid>
 </Window>
