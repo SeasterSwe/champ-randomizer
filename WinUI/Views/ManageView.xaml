@@ -5,44 +5,97 @@
     xmlns:local="using:WinUI.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    x:Name="RootPage">
 
-    <StackPanel>
-        <TextBlock Text="List Management"
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <TextBlock Text="Champion List Management"
                    FontSize="24"
                    FontWeight="SemiBold"
                    Foreground="#444"
                    HorizontalAlignment="Center"
-                   Margin="0,0,0,24" />
+                   Margin="0,20,0,24" />
 
-        <ItemsControl ItemsSource="{Binding ChampionData.Lists}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Border BorderBrush="#888" BorderThickness="1" CornerRadius="8" Margin="0,0,0,16" Padding="12">
-                        <StackPanel>
-                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <TextBlock Text="{Binding Name}" FontWeight="Bold" FontSize="18" />
-                                <TextBlock Text=" - " FontSize="18" />
-                                <TextBlock Text="{Binding Role}" FontStyle="Italic" FontSize="18" />
-                                <Button Content="Edit" Margin="12,0,0,0" Command="{Binding DataContext.EditListCommand, ElementName=RootPage}" CommandParameter="{Binding}" />
-                            </StackPanel>
-                            <ItemsControl ItemsSource="{Binding Champions}">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="• " />
-                                            <TextBlock Text="{Binding Name}" />
-                                            <Button Content="Rename" Command="{Binding DataContext.RenameChampionCommand, ElementName=RootPage}" CommandParameter="{Binding}" Margin="8,0,0,0" />
-                                            <Button Content="Remove" Command="{Binding DataContext.RemoveChampionCommand, ElementName=RootPage}"  CommandParameter="{Binding}" Margin="4,0,0,0" />
+        <ScrollViewer Grid.Row="1" Margin="16,0">
+            <StackPanel>
+                <!-- Lists -->
+                <ItemsControl ItemsSource="{Binding ChampionData.Lists}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderBrush="#888" BorderThickness="1" CornerRadius="8" Margin="0,0,0,16" Padding="12">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding Name}" FontWeight="Bold" FontSize="18" />
+                                        <TextBlock Text=" - " FontSize="18" />
+                                        <TextBlock Text="{Binding Role}" FontStyle="Italic" FontSize="18" />
+                                        <Button Content="Edit" Margin="12,0,0,0" Command="{Binding DataContext.EditListCommand, ElementName=RootPage}" CommandParameter="{Binding}" />
+                                    </StackPanel>
+                                    <ItemsControl ItemsSource="{Binding Champions}" Margin="0,8,0,0">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" Margin="0,4">
+                                                    <TextBlock Text="• " />
+                                                    <TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
+                                                    <Button Content="Rename" Command="{Binding DataContext.RenameChampionCommand, ElementName=RootPage}" CommandParameter="{Binding}" Margin="8,0,0,0" />
+                                                    <Button Content="Remove" Command="{Binding DataContext.RemoveChampionCommand, ElementName=RootPage}" CommandParameter="{Binding}" Margin="4,0,0,0" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+
+                                    <!-- Add Champion input - shown when editing this list -->
+                                    <StackPanel Visibility="{Binding Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=IsCurrentEditingList}" Margin="0,12,0,0">
+                                        <TextBlock Text="Add a new champion:" FontWeight="SemiBold" />
+                                        <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                                            <TextBox PlaceholderText="Champion name" Text="{Binding DataContext.NewChampionName, ElementName=RootPage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="200" />
+                                            <Button Content="Add" Command="{Binding DataContext.AddChampionCommand, ElementName=RootPage}" Margin="8,0,0,0" />
                                         </StackPanel>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                            <!-- Add Champion input and button can be shown conditionally when editing -->
-                        </StackPanel>
-                    </Border>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-    </StackPanel>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <!-- Create New List Section -->
+                <Border BorderBrush="#888" BorderThickness="1" CornerRadius="8" Margin="0,16,0,16" Padding="12" Background="#f5f5f5">
+                    <StackPanel>
+                        <TextBlock Text="Create New List" FontWeight="Bold" FontSize="18" Margin="0,0,0,12" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Margin="0,0,8,0">
+                                <TextBlock Text="List Name:" Margin="0,0,0,4" />
+                                <TextBox PlaceholderText="Enter list name" Text="{Binding NewListName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1" Margin="8,0,0,0">
+                                <TextBlock Text="Role:" Margin="0,0,0,4" />
+                                <ComboBox ItemsSource="{Binding AvailableRoles}" SelectedItem="{Binding NewListRole, Mode=TwoWay}" HorizontalAlignment="Stretch" />
+                            </StackPanel>
+                        </Grid>
+
+                        <Button Content="Create List" Command="{Binding CreateNewListCommand}" Margin="0,12,0,0" HorizontalAlignment="Right" />
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Footer with Save Button -->
+        <Button Grid.Row="2"
+                Content="Save All Changes"
+                Command="{Binding SaveDataCommand}"
+                HorizontalAlignment="Center"
+                Margin="0,16,0,20" />
+    </Grid>
 </Page>
