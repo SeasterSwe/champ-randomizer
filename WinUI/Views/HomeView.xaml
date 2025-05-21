@@ -8,12 +8,36 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <StackPanel>
-        <TextBlock Text="Home View"
-                   FontSize="24"
-                   FontWeight="SemiBold"
-                   Foreground="#444"
-                   HorizontalAlignment="Center"
-                   Margin="0,0,0,24" />
-    </StackPanel>
+    <Page.DataContext>
+        <viewModels:ManageViewModel xmlns:viewModels="using:WinUI.ViewModels" />
+    </Page.DataContext>
+
+    <ScrollViewer>
+        <ItemsControl ItemsSource="{Binding ChampionData.Lists}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapGrid Orientation="Horizontal" MaximumRowsOrColumns="3" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border Margin="8" Padding="12" Background="#FFF" CornerRadius="8" Width="220" Height="120" BorderBrush="#DDD" BorderThickness="1">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding Name}" FontWeight="Bold" FontSize="16" />
+                                <TextBlock Text=" - " FontSize="16" Margin="4,0" />
+                                <TextBlock Text="{Binding Role}" FontStyle="Italic" FontSize="14" Foreground="#888" />
+                                <FontIcon Glyph="&#xE1D3;" Margin="8,0,0,0" FontSize="16" Foreground="#888" />
+                                <!-- Dice icon -->
+                            </StackPanel>
+                            <TextBlock Text="{Binding Champions, Converter={StaticResource ChampionNamesConverter}}"
+                                       TextWrapping="Wrap"
+                                       Margin="0,8,0,0"
+                                       FontSize="13" />
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </ScrollViewer>
 </Page>
