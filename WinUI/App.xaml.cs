@@ -1,9 +1,12 @@
-﻿using System;
+﻿using Microsoft.UI.Xaml;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
-using Microsoft.UI.Xaml;
+using System.Text.Json;
+using System.Threading.Tasks;
+using WinUI.Models;
 
 namespace WinUI;
 
@@ -28,5 +31,12 @@ public partial class App : Application
     {
         _window = new MainWindow();
         _window.Activate();
+    }
+
+    public async Task<ChampionData> LoadChampionDataAsync(string filePath)
+    {
+        if (!File.Exists(filePath)) return new ChampionData();
+        var json = await File.ReadAllTextAsync(filePath);
+        return JsonSerializer.Deserialize<ChampionData>(json) ?? new ChampionData();
     }
 }

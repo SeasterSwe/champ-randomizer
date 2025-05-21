@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <Page
     x:Class="WinUI.Views.ManageView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -15,5 +14,35 @@
                    Foreground="#444"
                    HorizontalAlignment="Center"
                    Margin="0,0,0,24" />
+
+        <ItemsControl ItemsSource="{Binding ChampionData.Lists}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderBrush="#888" BorderThickness="1" CornerRadius="8" Margin="0,0,0,16" Padding="12">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding Name}" FontWeight="Bold" FontSize="18" />
+                                <TextBlock Text=" - " FontSize="18" />
+                                <TextBlock Text="{Binding Role}" FontStyle="Italic" FontSize="18" />
+                                <Button Content="Edit" Margin="12,0,0,0" Command="{Binding DataContext.EditListCommand, ElementName=RootPage}" CommandParameter="{Binding}" />
+                            </StackPanel>
+                            <ItemsControl ItemsSource="{Binding Champions}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="• " />
+                                            <TextBlock Text="{Binding Name}" />
+                                            <Button Content="Rename" Command="{Binding DataContext.RenameChampionCommand, ElementName=RootPage}" CommandParameter="{Binding}" Margin="8,0,0,0" />
+                                            <Button Content="Remove" Command="{Binding DataContext.RemoveChampionCommand, ElementName=RootPage}"  CommandParameter="{Binding}" Margin="4,0,0,0" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                            <!-- Add Champion input and button can be shown conditionally when editing -->
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </StackPanel>
 </Page>
