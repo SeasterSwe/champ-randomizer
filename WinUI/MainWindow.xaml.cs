@@ -10,7 +10,7 @@ public sealed partial class MainWindow : Window
     public MainWindow()
     {
         this.InitializeComponent();
-        ContentFrame.Navigate(typeof(HomeView));
+        ContentFrame.Navigate(typeof(HomeView)); // Exception occurs here
     }
 
     private void MainNav_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)

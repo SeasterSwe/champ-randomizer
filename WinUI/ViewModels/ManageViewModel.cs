@@ -21,6 +21,8 @@ public class ManageViewModel : NotifyPropertyBase
     private string _newListName;
     private string _newListRole;
     private bool _isEditingList;
+    private string _tempChampionName;
+    private ObservableCollection<string> _tempChampions;
 
     public ChampionData ChampionData
     {
@@ -58,12 +60,26 @@ public class ManageViewModel : NotifyPropertyBase
         set => SetProperty(ref _isEditingList, value);
     }
 
+    public string TempChampionName
+    {
+        get => _tempChampionName;
+        set => SetProperty(ref _tempChampionName, value);
+    }
+
+    public ObservableCollection<string> TempChampions
+    {
+        get => _tempChampions;
+        set => SetProperty(ref _tempChampions, value);
+    }
+
     public ICommand EditListCommand { get; }
     public ICommand RenameChampionCommand { get; }
     public ICommand RemoveChampionCommand { get; }
     public ICommand AddChampionCommand { get; }
     public ICommand CreateNewListCommand { get; }
     public ICommand SaveDataCommand { get; }
+    public ICommand AddTempChampionCommand { get; }
+    public ICommand RemoveTempChampionCommand { get; }
 
     public ObservableCollection<string> AvailableRoles { get; } = new ObservableCollection<string>(Role.Roles);
 
@@ -76,6 +92,7 @@ public class ManageViewModel : NotifyPropertyBase
     {
         // Initialize data
         _championData = new ChampionData();
+        _tempChampions = new ObservableCollection<string>();
 
         // Initialize commands
         EditListCommand = new RelayCommand<ChampionList>(EditList);
@@ -84,6 +101,8 @@ public class ManageViewModel : NotifyPropertyBase
         AddChampionCommand = new RelayCommand(AddChampion, CanAddChampion);
         CreateNewListCommand = new RelayCommand(CreateNewList);
         SaveDataCommand = new RelayCommand(async () => await SaveDataAsync());
+        AddTempChampionCommand = new RelayCommand(AddTempChampion, CanAddTempChampion);
+        RemoveTempChampionCommand = new RelayCommand<string>(RemoveTempChampion);
 
         // Load initial data
         _ = LoadDataAsync();
@@ -227,13 +246,54 @@ public class ManageViewModel : NotifyPropertyBase
         }
 
         var role = string.IsNullOrWhiteSpace(NewListRole) ? Role.Roles[0] : NewListRole;
-        ChampionData.Lists.Add(new ChampionList(NewListName, role));
+        var newList = new ChampionList(NewListName, role);
+
+        // Add all temporary champions to the new list
+        foreach (var championName in TempChampions)
+        {
+            newList.Champions.Add(new Champion(championName));
+        }
+
+        ChampionData.Lists.Add(newList);
 
         // Clear the input fields
         NewListName = string.Empty;
         NewListRole = string.Empty;
+        TempChampions.Clear();
+        TempChampionName = string.Empty;
 
         // Save the changes
         await SaveDataAsync();
+    }
+
+    private void AddTempChampion()
+    {
+        if (!string.IsNullOrWhiteSpace(TempChampionName))
+        {
+            TempChampions.Add(TempChampionName);
+            TempChampionName = string.Empty;
+        }
+    }
+
+    private bool CanAddTempChampion()
+    {
+        return !string.IsNullOrWhiteSpace(TempChampionName);
+    }
+
+    private void RemoveTempChampion(string championName)
+    {
+        if (!string.IsNullOrEmpty(championName))
+        {
+            TempChampions.Remove(championName);
+        }
+    }
+
+    // Method to handle Enter key press in the champion name TextBox
+    public void AddTempChampionOnEnter()
+    {
+        if (CanAddTempChampion())
+        {
+            AddTempChampion();
+        }
     }
 }

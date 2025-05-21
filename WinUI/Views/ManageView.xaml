@@ -85,7 +85,44 @@
                             </StackPanel>
                         </Grid>
 
-                        <Button Content="Create List" Command="{Binding CreateNewListCommand}" Margin="0,12,0,0" HorizontalAlignment="Right" />
+                        <TextBlock Text="Champions:" Margin="0,12,0,4" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBox x:Name="NewChampionTextBox" 
+                                     PlaceholderText="Enter champion name and press Enter" 
+                                     Text="{Binding TempChampionName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                     KeyDown="NewChampionTextBox_KeyDown" />
+                            <Button Grid.Column="1" 
+                                    Content="Add" 
+                                    Command="{Binding AddTempChampionCommand}" 
+                                    Margin="8,0,0,0" />
+                        </Grid>
+
+                        <ItemsControl ItemsSource="{Binding TempChampions}" Margin="0,8,0,0">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="0,4">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="{Binding}" VerticalAlignment="Center" />
+                                        <Button Grid.Column="1" 
+                                                Content="Remove" 
+                                                Command="{Binding DataContext.RemoveTempChampionCommand, ElementName=RootPage}" 
+                                                CommandParameter="{Binding}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                        <Button Content="Create List with Champions" 
+                                Command="{Binding CreateNewListCommand}" 
+                                Margin="0,12,0,0" 
+                                HorizontalAlignment="Right" />
                     </StackPanel>
                 </Border>
             </StackPanel>
