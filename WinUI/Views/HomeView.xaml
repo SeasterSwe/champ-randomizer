@@ -13,6 +13,7 @@
     </Page.DataContext>
 
     <ScrollViewer>
+
         <ItemsControl ItemsSource="{Binding ChampionData.Lists}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -28,7 +29,6 @@
                                 <TextBlock Text=" - " FontSize="16" Margin="4,0" />
                                 <TextBlock Text="{Binding Role}" FontStyle="Italic" FontSize="14" Foreground="#888" />
                                 <FontIcon Glyph="&#xE1D3;" Margin="8,0,0,0" FontSize="16" Foreground="#888" />
-                                <!-- Dice icon -->
                             </StackPanel>
                             <TextBlock Text="{Binding Champions, Converter={StaticResource ChampionNamesConverter}}"
                                        TextWrapping="Wrap"
