@@ -56,12 +56,7 @@
             </ItemsControl>
         </ScrollViewer>
 
-        <TeachingTip x:Name="RandomChampionTip"
-             Title="Random Champion"
-             IsLightDismissEnabled="True"
-             HeroContentPlacement="Top"
-             PreferredPlacement="Bottom"
-             Subtitle="Here's your random pick!"
-             Content="{Binding RandomChampion}" />
+        <Button x:Name="PopupAnchor" Width="0" Height="0" Visibility="Collapsed"/>
+
     </Grid>
 </Page>
